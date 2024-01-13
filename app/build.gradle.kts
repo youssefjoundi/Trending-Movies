@@ -1,3 +1,6 @@
+import com.android.manifmerger.Actions.load
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -5,6 +8,11 @@ plugins {
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
 }
+
+val apiProperties = Properties().apply {
+    load(project.rootProject.file("secrets.properties").inputStream())
+}
+
 
 android {
     namespace = "com.yassir.trendingmovies"
@@ -22,7 +30,8 @@ android {
             useSupportLibrary = true
         }
 
-        buildConfigField("String", "API_KEY", "\"${project.findProperty("API_KEY")}\"")
+        buildConfigField("String", "API_KEY", "\"${apiProperties.getProperty("api_key")}\"")
+
 
 
 
